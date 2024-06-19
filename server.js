@@ -34,14 +34,8 @@ server.get('/node', () => {
 server.listen({
   port: 3333,
 }) 
-*/
 
-
-
-import { fastify } from 'fastify'
-
-const server = fastify()
-
+// Outro exemplo basico utilizando metodos crud
 
 // Base de criação de rotas com fastity
 server.post('/videos', () => {
@@ -59,6 +53,41 @@ server.put('/videos/:id', () => {
 server.delete('/videos/:id', () => {
   return 'Hello Node.js Delete'
 }) // Deletar um video com ID no banco de dados
+
+
+server.listen({
+  port: 3333,
+})
+
+*/
+
+
+import { fastify } from 'fastify';
+import { DatabaseMemory } from './database-memory.js';
+
+const server = fastify()
+
+const database = new DatabaseMemory()
+// using Request body on post and put
+
+server.post('/videos', (request, reply) => {
+  const { title, description, duration } = request.body
+
+  database.create({
+    title: title,
+    description: description,
+    duration: duration
+  })
+  // console.log(database.list())
+  return reply.status(201).send()
+})
+
+
+
+server.get('/videos', () => {
+  const videos = database.list()
+  return videos
+})
 
 
 server.listen({

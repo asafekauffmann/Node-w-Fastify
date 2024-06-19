@@ -1,1 +1,15 @@
-POST http://localhost/3333/videos
+// Testar resposta de rota reply | response com Rest Client extension
+POST http://localhost:3333/videos
+Content-type: application/json
+
+{
+  "title": "Titulo video 01",
+  "description": "Descrição titulo 01",
+  "duration": 180
+}
+
+
+####
+
+
+GET http://localhost:3333/videos
