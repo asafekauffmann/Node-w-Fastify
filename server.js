@@ -35,6 +35,8 @@ server.listen({
   port: 3333,
 }) 
 
+
+
 // Outro exemplo basico utilizando metodos crud
 
 // Base de criação de rotas com fastity
@@ -58,9 +60,7 @@ server.delete('/videos/:id', () => {
 server.listen({
   port: 3333,
 })
-
 */
-
 
 import { fastify } from 'fastify';
 import { DatabaseMemory } from './database-memory.js';
@@ -78,15 +78,32 @@ server.post('/videos', (request, reply) => {
     description: description,
     duration: duration
   })
-  // console.log(database.list())
   return reply.status(201).send()
 })
-
 
 
 server.get('/videos', () => {
   const videos = database.list()
   return videos
+})
+
+
+server.put('/videos/:id', (request, reply) => {
+  const videoId = request.params.id
+  const { title, description, duration } = request.body
+
+  database.update(videoId,{
+    title: title,
+    description: description,
+    duration: duration
+  })
+  return reply.status(204).send()
+})
+
+server.delete('/videos/:id', (request, reply) => {
+  const videoId = request.params.id
+  database.delete(videoId)
+  return reply.status(204).send()
 })
 
 
